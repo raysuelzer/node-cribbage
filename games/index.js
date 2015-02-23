@@ -6,8 +6,10 @@ var events = require('events'),
 
 var Game = {
 
-	dealer: false,
-	deal: false,
+	dealerIndex: false,
+	dealIndex: false,
+	discardIndex: false,
+	crib: [],
 
 	dealCards: function() {
 		var dealt = [];
@@ -17,9 +19,9 @@ var Game = {
 		for( var i = 0; i < Game.cardsPerDeal; i++ ) {
 			Game.iteratePlayer( 'deal' );
 
-			while( ! _.contains( dealt, Game.deal ) ) {
-				Game.players[ Game.deal ].hand.push( Game.deck.shift() );
-				dealt.push( Game.deal );
+			while( ! _.contains( dealt, Game.dealIndex ) ) {
+				Game.players[ Game.dealIndex ].hand.push( Game.deck.shift() );
+				dealt.push( Game.dealIndex );
 				Game.iteratePlayer( 'deal' );
 			}
 
@@ -28,25 +30,35 @@ var Game = {
 		}
 
 		Game.event.emit( 'dealComplete' );
-		Game.discard();
+		Game.discardInit();
 
 	},
 
-	discard: function() {
+	discardInit: function() {
 		for( var i = 0; i < Game.numPlayers; i++ ) {
 			if ( Game.players[ i ].isRobot ) {
 				Game.AI.discard( i );
 			}
 		}
-		Game.event.emit( 'discard' );
+		Game.discardIndex = Game.playerIndexWhere( 'isRobot', false );
+		Game.event.emit( 'discardInit' );
+	},
+
+	playerDiscard: function( index ) {
+		Game.players[Game.discardIndex].hand.splice( index, 1 );
+		if ( Game.players[Game.discardIndex].hand.length === 4 ) {
+			Game.event.emit( 'playerDiscardComplete' );
+		} else {
+			Game.event.emit( 'playerDiscard' );
+		}
 	},
 
 	/**
 	 * This iterates through players.
-	 * Used with 'dealer' to set the next dealer
-	 * Used with 'deal' to set who gets the next card during a deal
+	 * Used with 'dealerIndex' to set the next dealer
+	 * Used with 'dealIndex' to set who gets the next card during a deal
 	 *
-	 * @param prop ( 'deal' or 'dealer' )
+	 * @param prop ( 'dealIndex' or 'dealerIndex' )
 	 */
 	iteratePlayer: function( prop ) {
 
@@ -64,9 +76,9 @@ var Game = {
 
 	setDealer : function() {
 		// this sets the first dealer
-		Game.iteratePlayer( 'dealer' );
+		Game.iteratePlayer( 'dealerIndex' );
 		// sets the deal pointer at the dealer, it will move to next player during deal()
-		Game.deal = Game.dealer;
+		Game.dealIndex = Game.dealerIndex;
 		Game.event.emit( 'dealerSet' );
 	},
 
@@ -99,19 +111,27 @@ var Game = {
 
 	AI: {
 		discard: function( playerIndex ) {
-			Game.players[ playerIndex ].hand.shift();
-			Game.players[ playerIndex ].hand.shift();
+			Game.crib.push( Game.players[ playerIndex ].hand.shift() );
+			Game.crib.push( Game.players[ playerIndex ].hand.shift() );
 		}
 	},
 
 	player: function( props ) {
 		var defaults = {
 			isRobot: false,
-			hand: [],
-			dealer: false
+			hand: []
 		};
 
 		return _.extend( defaults, props );
+	},
+
+	playerIndexWhere: function( attr, val ) {
+		for( var i = 0; i < Game.numPlayers; i++ ) {
+			if ( Game.players[i][attr] === val ) {
+				return i;
+			}
+		}
+		return false;
 	}
 
 };
