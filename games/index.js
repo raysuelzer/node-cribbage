@@ -10,6 +10,7 @@ var Game = {
 	dealIndex: false,
 	discardIndex: false,
 	crib: [],
+	cutCard: false,
 
 	dealCards: function() {
 		var dealt = [];
@@ -133,6 +134,21 @@ var Game = {
 			}
 		}
 		return false;
+	},
+
+	setCutCard: function() {
+		Game.cutCard = _.sample( Game.deck );
+		Game.event.emit( 'cutCardSet' );
+	},
+
+	gameReset: function() {
+		Game.dealerIndex = false;
+		Game.dealIndex = false;
+		Game.discardIndex = false;
+		Game.crib = [];
+		Game.cutCard = false;
+		Game.deck = false;
+		Game.players = [];
 	}
 
 };

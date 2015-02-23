@@ -29,6 +29,13 @@ var Single_Hand = {
 		// adds a human player
 		this.players.push( this.player( { isRobot: false } ) );
 		this.event.emit( 'playersSet' );
+		this.event.on( 'cutCardSet', this.gameComplete );
+	},
+
+	gameComplete: function() {
+		Game.event.emit( 'gameComplete' );
+		Game.players = [];
+		Game.gameReset();
 	}
 };
 

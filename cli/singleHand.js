@@ -23,6 +23,7 @@ var Cli_Single_Hand = {
 		this.game.event.once('discardInit', this.listeners.discardInit );
 		this.game.event.once('playerDiscardComplete', this.listeners.playerDiscardComplete );
 		this.game.event.once('playerDiscard', this.listeners.playerDiscard );
+		this.game.event.once('gameComplete', this.listeners.gameComplete );
 		this.game.start();
 	},
 
@@ -78,7 +79,30 @@ var Cli_Single_Hand = {
 		},
 		playerDiscardComplete: function() {
 			Cli_Single_Hand.interface.removeListener( 'line', Cli_Single_Hand.listeners.discardPrompt );
-			console.log( Cli_Single_Hand.game.crib );
+			Cli_Single_Hand.game.setCutCard();
+		},
+		gameComplete: function() {
+			var cutCard = Cli_Single_Hand.game.cutCard,
+				bob = Cli_Single_Hand.game.playerIndexWhere( 'isRobot', true ),
+				you = Cli_Single_Hand.game.playerIndexWhere( 'isRobot', false ),
+				bobsHand = Cli_Single_Hand.game.players[bob].hand,
+				yourHand = Cli_Single_Hand.game.players[you].hand,
+				cribHand = Cli_Single_Hand.game.crib;
+
+			console.log( "\nCut card: %s %s\n".prompt, cutCard.suitsymbol, cutCard.name );
+
+			if ( bob === Cli_Single_Hand.game.dealerIndex ) {
+				console.log( "\nYour Hand: %s".prompt, Cli_Single_Hand.displayHand( yourHand ) );
+				console.log( "\nBob's Hand: %s".prompt, Cli_Single_Hand.displayHand( bobsHand ) );
+				console.log( "\nBob's Crib: %s".prompt, Cli_Single_Hand.displayHand( cribHand ) );
+			} else {
+				console.log( "\nBob's Hand: %s".prompt, Cli_Single_Hand.displayHand( bobsHand ) );
+				console.log( "\nYour Hand: %s".prompt, Cli_Single_Hand.displayHand( yourHand ) );
+				console.log( "\nYour Crib: %s".prompt, Cli_Single_Hand.displayHand( cribHand ) );
+			}
+
+			Cli_Single_Hand.event.emit( 'gameComplete' );
+
 		}
 	},
 
@@ -99,12 +123,18 @@ var Cli_Single_Hand = {
 		var whosCrib = Cli_Single_Hand.whosCrib(),
 			message = "\nPlease select " + num + " to add to " + whosCrib + " crib.",
 			hand = Cli_Single_Hand.game.players[ Cli_Single_Hand.game.discardIndex ].hand;
-		for( var i = 0; i < hand.length; i++ ) {
-			message = message + "\n\t" + ( i + 1 ) + ": " + hand[i].name + " of " + hand[i].suitsymbol;
-		}
+
+		message = message + Cli_Single_Hand.displayHand( hand );
 		Cli_Single_Hand.currentPrompt = message.prompt.commentary;
 		console.log( Cli_Single_Hand.currentPrompt );
-		Cli_Single_Hand.interface.prompt();
+	},
+
+	displayHand: function( hand ) {
+		var message = '';
+		for( var i = 0; i < hand.length; i++ ) {
+			message = message + "\n\t" + ( i + 1 ) + ": " + hand[i].suitsymbol + " " + hand[i].name;
+		}
+		return message;
 	}
 
 };

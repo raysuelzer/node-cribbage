@@ -64,15 +64,15 @@ var Main_Menu = {
 					Main_Menu.game = singleHand;
 					break;
 			}
-			Main_Menu.game.event.on( 'gameEnd', Main_Menu.listeners.gameComplete );
+			Main_Menu.game.event.on( 'gameComplete', Main_Menu.listeners.gameComplete );
 			Main_Menu.removeListeners();
 			Main_Menu.game.init( Main_Menu.interface );
 		},
 		gameComplete: function() {
-			Main_Menu.game.event.removeListener( 'gameEnd', Main_Menu.listeners.gameComplete );
+			Main_Menu.game.event.removeListener( 'gameComplete', Main_Menu.listeners.gameComplete );
 			Main_Menu.game = false;
 			Main_Menu.addListeners();
-			console.log( 'Welp, that was a good game. You wanna play again?'.bob );
+			console.log( "\nWelp, that was a good game. You wanna play again?\n".bob );
 			console.log( Main_Menu.currentPrompt );
 		}
 	}
