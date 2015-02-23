@@ -17,12 +17,12 @@ var Game = {
 		Game.shuffle();
 
 		for( var i = 0; i < Game.cardsPerDeal; i++ ) {
-			Game.iteratePlayer( 'deal' );
+			Game.iteratePlayer( 'dealIndex' );
 
 			while( ! _.contains( dealt, Game.dealIndex ) ) {
 				Game.players[ Game.dealIndex ].hand.push( Game.deck.shift() );
 				dealt.push( Game.dealIndex );
-				Game.iteratePlayer( 'deal' );
+				Game.iteratePlayer( 'dealIndex' );
 			}
 
 			dealt = [];
@@ -45,6 +45,7 @@ var Game = {
 	},
 
 	playerDiscard: function( index ) {
+		Game.crib.push( Game.players[Game.discardIndex].hand[index] );
 		Game.players[Game.discardIndex].hand.splice( index, 1 );
 		if ( Game.players[Game.discardIndex].hand.length === 4 ) {
 			Game.event.emit( 'playerDiscardComplete' );

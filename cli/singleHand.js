@@ -20,8 +20,9 @@ var Cli_Single_Hand = {
 		this.game.event.once('cardsShuffled', this.listeners.welcome );
 		this.game.event.once('playersSet', this.listeners.firstDeal );
 		this.game.event.once('dealingOrderSet', this.listeners.dealingOrderSet );
-		this.game.event.once('dealComplete', this.listeners.dealComplete );
 		this.game.event.once('discardInit', this.listeners.discardInit );
+		this.game.event.once('playerDiscardComplete', this.listeners.playerDiscardComplete );
+		this.game.event.once('playerDiscard', this.listeners.playerDiscard );
 		this.game.start();
 	},
 
@@ -56,14 +57,13 @@ var Cli_Single_Hand = {
 			}
 			Cli_Single_Hand.game.dealCards();
 		},
-		dealComplete: function() {
-		},
 		discardInit: function() {
 			var dealer = Cli_Single_Hand.game.players[ Cli_Single_Hand.game.dealerIndex ],
 				whosCrib = Cli_Single_Hand.whosCrib( 'bobsPOV' );
 
 			console.log( "\nOkay, I dropped 2 cards into %s crib. Now you gotta do the same.".bob, whosCrib );
-			Cli_Single_Hand.discardSelect();
+			Cli_Single_Hand.interface.on( 'line', Cli_Single_Hand.listeners.discardPrompt );
+			Cli_Single_Hand.discardSelect( '2 cards' );
 		},
 		discardPrompt: function(line) {
 			var hand = Cli_Single_Hand.game.players[ Cli_Single_Hand.game.discardIndex ].hand,
@@ -71,6 +71,14 @@ var Cli_Single_Hand = {
 			if ( index in hand ) {
 				Cli_Single_Hand.game.playerDiscard( index );
 			}
+		},
+		playerDiscard: function() {
+			console.log( "There's 1, now let's pick one more.".bob );
+			Cli_Single_Hand.discardSelect( '1 card' );
+		},
+		playerDiscardComplete: function() {
+			Cli_Single_Hand.interface.removeListener( 'line', Cli_Single_Hand.listeners.discardPrompt );
+			console.log( Cli_Single_Hand.game.crib );
 		}
 	},
 
@@ -87,22 +95,16 @@ var Cli_Single_Hand = {
 		return who;
 	},
 
-	discardSelect: function() {
+	discardSelect: function( num ) {
 		var whosCrib = Cli_Single_Hand.whosCrib(),
-			message = "\nPlease select 2 cards to add to " + whosCrib + " crib.",
+			message = "\nPlease select " + num + " to add to " + whosCrib + " crib.",
 			hand = Cli_Single_Hand.game.players[ Cli_Single_Hand.game.discardIndex ].hand;
-		for( var i = 0; i < Cli_Single_Hand.game.cardsPerDeal; i++ ) {
-			try{
-				message = message + "\n\t" + ( i + 1 ) + ": " + hand[i].name + " of " + hand[i].suitsymbol;
-			}
-			catch(err) {
-				console.log( hand );
-			}
-
+		for( var i = 0; i < hand.length; i++ ) {
+			message = message + "\n\t" + ( i + 1 ) + ": " + hand[i].name + " of " + hand[i].suitsymbol;
 		}
 		Cli_Single_Hand.currentPrompt = message.prompt.commentary;
-		Cli_Single_Hand.interface.on( 'line', Cli_Single_Hand.listeners.discardPrompt );
 		console.log( Cli_Single_Hand.currentPrompt );
+		Cli_Single_Hand.interface.prompt();
 	}
 
 };
