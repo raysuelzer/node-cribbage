@@ -1,0 +1,11 @@
+{
+  "name": "cribbage",
+  "version": "1.0.0",
+  "description": "You ready for some cribbage bub? It's gonna be a skunkah!",
+  "main": "index.js",
+  "dependencies": {
+    "colors": "^1.0.3",
+    "events": "*",
+    "underscore": "*"
+  }
+}
