@@ -106,6 +106,7 @@ var Cli_Single_Hand = {
 			}
 
 			Cli_Single_Hand.event.emit( 'gameComplete' );
+			
 		}
 	},
 
