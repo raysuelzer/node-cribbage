@@ -23,6 +23,7 @@ var Single_Hand = {
 	players: [],
 
 	start: function() {
+		this.gameReset();
 		this.shuffle();
 		// adds an robot player
 		this.players.push( this.player( { isRobot: true } ) );
@@ -37,7 +38,6 @@ var Single_Hand = {
 			Game.players[index].score = Game.engines.cribbage.calculateScore( player.hand, Game.cutCard );
 		} );
 		Game.event.emit( 'gameComplete' );
-		Game.gameReset();
 	}
 };
 

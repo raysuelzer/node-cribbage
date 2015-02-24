@@ -82,6 +82,7 @@ var Cli_Single_Hand = {
 			Cli_Single_Hand.game.setCutCard();
 		},
 		gameComplete: function() {
+
 			var cutCard = Cli_Single_Hand.game.cutCard,
 				bob = Cli_Single_Hand.game.playerIndexWhere( 'isRobot', true ),
 				you = Cli_Single_Hand.game.playerIndexWhere( 'isRobot', false ),
@@ -106,7 +107,7 @@ var Cli_Single_Hand = {
 			}
 
 			Cli_Single_Hand.event.emit( 'gameComplete' );
-			
+
 		}
 	},
 
