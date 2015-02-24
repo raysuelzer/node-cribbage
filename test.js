@@ -4,7 +4,7 @@ var c = require( './lib/cribbage' ),
 		value: 9,
 		suit: 'Diamonds',
 		suitvalue: 2,
-		sequence: 9,
+		sequence: 9
 	},
 	hand = [
 		{
@@ -12,14 +12,14 @@ var c = require( './lib/cribbage' ),
 			value: 10,
 			suit: 'Clubs',
 			suitvalue: 1,
-			sequence: 11,
+			sequence: 11
 		},
 		{
 			name: 'Jack',
 			value: 10,
 			suit: 'Diamonds',
 			suitvalue: 2,
-			sequence: 11,
+			sequence: 11
 		},
 		{
 			name: '6',
@@ -35,12 +35,23 @@ var c = require( './lib/cribbage' ),
 			suit: 'Clubs',
 			suitvalue: 1,
 			sequence: 6
-		}
+		},
+		{
+			name: '3',
+			value: 3,
+			suit: 'Diamonds',
+			suitvalue: 2,
+			sequence: 3
+		},
+		{
+			name: '2',
+			value: 2,
+			suit: 'Diamonds',
+			suitvalue: 2,
+			sequence: 2
+		},
 	],
-	score = c.calculateScore( hand, cutCard );
+	intel = c.intel.discard( hand );
 
-for( var i = 0; i < hand.length; i++ ) {
-	console.log( hand[i].suit + ' ' + hand[i].name + "\n" );
-}
-console.log( "cut\n" + cutCard.suit + cutCard.name );
-console.log( "\n", score );
+//console.log( intel );
+
