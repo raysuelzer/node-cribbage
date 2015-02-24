@@ -9,7 +9,8 @@ colors.setTheme({
 	prompt: 'grey', // the prompter is grey
 	bob: 'green', // our narrator and game master, bob, is green
 	choice: 'cyan', // choices in a menu are blue
-	commentary: 'italic' // comments on the current state of the game (eg, shuffling the cards)
+	commentary: 'italic', // comments on the current state of the game (eg, shuffling the cards)
+	debug: 'rainbow'
 });
 
 /**

@@ -107,8 +107,8 @@ var Game = {
 	 * Resets and shuffles the deck
 	 */
 	shuffle: function() {
-		this.deck = this.engines.deck.get();
-		this.event.emit( 'cardsShuffled' );
+		Game.deck = Game.engines.deck.get();
+		Game.event.emit( 'cardsShuffled' );
 	},
 
 	AI: {

@@ -93,11 +93,15 @@ var Cli_Single_Hand = {
 
 			if ( bob === Cli_Single_Hand.game.dealerIndex ) {
 				console.log( "\nYour Hand: %s".prompt, Cli_Single_Hand.displayHand( yourHand ) );
+				console.log( "\nScore: %s".prompt, Cli_Single_Hand.game.players[you].score.total );
 				console.log( "\nBob's Hand: %s".prompt, Cli_Single_Hand.displayHand( bobsHand ) );
+				console.log( "\nScore: %s".prompt, Cli_Single_Hand.game.players[bob].score.total );
 				console.log( "\nBob's Crib: %s".prompt, Cli_Single_Hand.displayHand( cribHand ) );
 			} else {
 				console.log( "\nBob's Hand: %s".prompt, Cli_Single_Hand.displayHand( bobsHand ) );
+				console.log( "\nScore: %s".prompt, Cli_Single_Hand.game.players[bob].score.total );
 				console.log( "\nYour Hand: %s".prompt, Cli_Single_Hand.displayHand( yourHand ) );
+				console.log( "\nScore: %s".prompt, Cli_Single_Hand.game.players[you].score.total );
 				console.log( "\nYour Crib: %s".prompt, Cli_Single_Hand.displayHand( cribHand ) );
 			}
 

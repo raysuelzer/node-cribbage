@@ -77,6 +77,6 @@ var Main_Menu = {
 		}
 	}
 
-}
+};
 
 module.exports = Main_Menu;
