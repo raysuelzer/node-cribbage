@@ -32,8 +32,8 @@ var c = require( './lib/cribbage' ),
 		{
 			name: '6',
 			value: 6,
-			suit: 'Clubs',
-			suitvalue: 1,
+			suit: 'Spades',
+			suitvalue: 4,
 			sequence: 6
 		},
 		{
