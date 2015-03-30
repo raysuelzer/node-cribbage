@@ -47,7 +47,7 @@ var Cli_Single_Hand = {
 				bob.dealingCard.suitsymbol
 			);
 
-			if ( bob.dealingOrder > you.dealingOrder ) {
+			if ( bob.dealingOrder < you.dealingOrder ) {
 				console.log( 'Bob is the dealer.'.commentary.prompt );
 				console.log( "\nMy crib!\n".bob );
 				console.log( 'Bob is dealing'.commentary.prompt );

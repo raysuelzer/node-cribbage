@@ -76,14 +76,6 @@ var Game = {
 
 	},
 
-	setDealer : function() {
-		// this sets the first dealer
-		Game.iteratePlayer( 'dealerIndex' );
-		// sets the deal pointer at the dealer, it will move to next player during deal()
-		Game.dealIndex = Game.dealerIndex;
-		Game.event.emit( 'dealerSet' );
-	},
-
 	/**
 	 * Deals each player one card to determine play order ( highest card plays first, followed by 2nd highest, etc )
 	 * @uses iteratePlayer to set the first dealer
@@ -97,8 +89,7 @@ var Game = {
 			player.dealingOrder = dealingOrder;
 		});
 		Game.players = _.sortBy( Game.players, 'dealingOrder' );
-		Game.players.reverse();
-		Game.setDealer();
+		Game.dealIndex = Game.dealerIndex = 0;
 
 		this.event.emit( 'dealingOrderSet' );
 	},
