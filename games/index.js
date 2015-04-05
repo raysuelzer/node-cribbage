@@ -10,6 +10,7 @@ var Game = {
 	dealIndex: false,
 	discardIndex: false,
 	crib: [],
+	cribScore: false,
 	cutCard: false,
 
 	dealCards: function() {

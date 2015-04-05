@@ -88,22 +88,61 @@ var Cli_Single_Hand = {
 				you = Cli_Single_Hand.game.playerIndexWhere( 'isRobot', false ),
 				bobsHand = Cli_Single_Hand.game.players[bob].hand,
 				yourHand = Cli_Single_Hand.game.players[you].hand,
-				cribHand = Cli_Single_Hand.game.crib;
+				cribHand = Cli_Single_Hand.game.crib,
+				bobsScore =  Cli_Single_Hand.game.players[bob].score.total,
+				yourScore = Cli_Single_Hand.game.players[you].score.total,
+				cribScore = Cli_Single_Hand.game.cribScore.total,
+				winnerIndex = 0;
 
 			console.log( "\nCut card: %s %s\n".prompt, cutCard.suitsymbol, cutCard.name );
 
 			if ( bob === Cli_Single_Hand.game.dealerIndex ) {
 				console.log( "\nYour Hand: %s".prompt, Cli_Single_Hand.displayHand( yourHand ) );
-				console.log( "\nScore: %s".prompt, Cli_Single_Hand.game.players[you].score.total );
+				console.log( "\nScore: %s".prompt, yourScore );
 				console.log( "\nBob's Hand: %s".prompt, Cli_Single_Hand.displayHand( bobsHand ) );
-				console.log( "\nScore: %s".prompt, Cli_Single_Hand.game.players[bob].score.total );
+				console.log( "\nScore: %s".prompt, bobsScore );
 				console.log( "\nBob's Crib: %s".prompt, Cli_Single_Hand.displayHand( cribHand ) );
+
+				if ( cribScore > yourScore ) {
+					winnerIndex--;
+				}
+
+				if ( cribScore < yourScore ) {
+					winnerIndex++;
+				}
+
 			} else {
 				console.log( "\nBob's Hand: %s".prompt, Cli_Single_Hand.displayHand( bobsHand ) );
-				console.log( "\nScore: %s".prompt, Cli_Single_Hand.game.players[bob].score.total );
+				console.log( "\nScore: %s".prompt, bobsScore );
 				console.log( "\nYour Hand: %s".prompt, Cli_Single_Hand.displayHand( yourHand ) );
-				console.log( "\nScore: %s".prompt, Cli_Single_Hand.game.players[you].score.total );
+				console.log( "\nScore: %s".prompt, yourScore );
 				console.log( "\nYour Crib: %s".prompt, Cli_Single_Hand.displayHand( cribHand ) );
+
+				if ( cribScore > bobsScore ) {
+					winnerIndex++;
+				}
+
+				if ( cribScore < bobsScore ) {
+					winnerIndex--;
+				}
+
+			}
+			console.log( "\nScore: %s".prompt, cribScore );
+
+			if ( yourScore > bobsScore ) {
+				winnerIndex++;
+			}
+
+			if ( yourScore < bobsScore ) {
+				winnerIndex--;
+			}
+
+			if ( winnerIndex > 0 ) {
+				console.log( "You win!".prompt );
+			} else if ( winnerIndex < 0 ) {
+				console.log( "Bob wins!".prompt );
+			} else {
+				console.log( "It's a tie.".prompt );
 			}
 
 			Cli_Single_Hand.event.emit( 'gameComplete' );

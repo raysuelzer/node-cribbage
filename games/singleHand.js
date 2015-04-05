@@ -37,6 +37,7 @@ var Single_Hand = {
 		_.each( Game.players, function( player, index ) {
 			Game.players[index].score = Game.engines.cribbage.calculateScore( player.hand, Game.cutCard );
 		} );
+		Game.cribScore = Game.engines.cribbage.calculateScore( Game.crib, Game.cutCard );
 		Game.event.emit( 'gameComplete' );
 	}
 };
