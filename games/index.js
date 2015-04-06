@@ -4,14 +4,29 @@
 var events = require('events'),
 	_ = require( 'underscore' );
 
+/**
+ * Internal dependencies
+ */
+
+var deck = require( '../lib/deckOfCards'),
+	cribbage = require( '../lib/cribbage' );
+
 var Game = {
 
+	event: new events.EventEmitter(),
 	dealerIndex: false,
 	dealIndex: false,
 	discardIndex: false,
 	crib: [],
 	cribScore: false,
 	cutCard: false,
+	deck: false,
+	players: [],
+	winnerIndex: false,
+	engines: {
+		cribbage: cribbage,
+		deck: deck
+	},
 
 	dealCards: function() {
 		var dealt = [];
@@ -140,7 +155,9 @@ var Game = {
 		Game.crib = [];
 		Game.cutCard = false;
 		Game.deck = false;
+		Game.cribScore = false;
 		Game.players = [];
+		Game.winnerIndex = false;
 	}
 
 };
