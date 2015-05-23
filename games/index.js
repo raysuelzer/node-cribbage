@@ -11,6 +11,9 @@ var events = require('events'),
 var deck = require( '../lib/deckOfCards'),
 	cribbage = require( '../lib/cribbage' );
 
+/**
+ * This is the base game object. Other game types, eg singleHand.js, will extend this object
+ */
 var Game = {
 
 	event: new events.EventEmitter(),

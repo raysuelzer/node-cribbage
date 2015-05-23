@@ -5,15 +5,15 @@ var _ = require( 'underscore' );
 /**
  * Internal dependencies
  */
-var singlePlayer = require( './singlePlayer'),
-	singleHand = require( './singleHand');
+var singleHand = require( './singleHand' ),
+	aiTest = require( './aiTest' );
 
 var Main_Menu = {
 
 	game: false,
 	games: {
-		'sp': 'Single Player',
-		'sh': 'Single Hand'
+		'sh': 'Single Hand',
+		'ai': 'AI Tester'
 	},
 	currentPrompt : false,
 
@@ -57,8 +57,8 @@ var Main_Menu = {
 				return;
 			}
 			switch( line ) {
-				case 'sp':
-					Main_Menu.game = singlePlayer;
+				case 'ai':
+					Main_Menu.game = aiTest;
 					break;
 				default:
 					Main_Menu.game = singleHand;

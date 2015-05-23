@@ -53,5 +53,5 @@ var c = require( './lib/cribbage' ),
 	],
 	intel = c.intel.discard( hand );
 
-//console.log( intel );
+console.log( intel );
 
