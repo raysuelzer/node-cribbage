@@ -123,8 +123,10 @@ var Game = {
 
 	AI: {
 		discard: function( playerIndex ) {
-			Game.crib.push( Game.players[ playerIndex ].hand.shift() );
-			Game.crib.push( Game.players[ playerIndex ].hand.shift() );
+			var intel = cribbage.intel.discard( Game.players[ playerIndex ].hand ),
+				discardIndexes = _.sortBy( intel, 'score' ).reverse()[0].discardIndexes;
+			Game.crib.push( Game.players[ playerIndex ].hand.splice( discardIndexes[0], 1 )[0] );
+			Game.crib.push( Game.players[ playerIndex ].hand.splice( discardIndexes[1], 1 )[0] );
 		}
 	},
 

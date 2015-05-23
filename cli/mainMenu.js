@@ -2,11 +2,6 @@
  * External dependencies
  */
 var _ = require( 'underscore' );
-/**
- * Internal dependencies
- */
-var singleHand = require( './singleHand' ),
-	aiTest = require( './aiTest' );
 
 var Main_Menu = {
 
@@ -58,10 +53,10 @@ var Main_Menu = {
 			}
 			switch( line ) {
 				case 'ai':
-					Main_Menu.game = aiTest;
+					Main_Menu.game = require( './aiTest' );
 					break;
 				default:
-					Main_Menu.game = singleHand;
+					Main_Menu.game = require( './singleHand' );
 					break;
 			}
 			Main_Menu.game.event.on( 'gameComplete', Main_Menu.listeners.gameComplete );

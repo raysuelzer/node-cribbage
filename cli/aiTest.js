@@ -20,12 +20,10 @@ var Cli_AI_Test = {
 
 	listeners: {
 		dealComplete: function() {
-			console.log( 'dealcomplete', Cli_AI_Test.game.players );
 		},
 
 		playersSet: function() {
 			Cli_AI_Test.game.dealCards();
-			console.log( Cli_AI_Test.game.players );
 		}
 	}
 }
